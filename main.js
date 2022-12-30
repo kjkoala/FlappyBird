@@ -32,7 +32,7 @@ class Game {
         new InputHandler(() => {
             if (!this.gameOver) {
                 this.player.flyUp()
-                this.audio_wing.play()
+                // this.audio_wing.play()
             }
         });
     }
@@ -59,8 +59,8 @@ class Game {
         }
 
         if(this.gameOver && this.speed > 0) {
-            this.audio_hit.play();
-            this.audio_die.play();
+            // this.audio_hit.play();
+            // this.audio_die.play();
             this.speed = 0;
 
             const restart = () => {
@@ -86,7 +86,7 @@ class Game {
         if (!this.scoreBlock) {
             this.score += 1;
             this.scoreBlock = true;
-            this.audio_point.play();
+            // this.audio_point.play();
         }
     }
 

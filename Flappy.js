@@ -7,7 +7,7 @@ export class Flappy {
         this.y = game.height * 0.5;
         this.vy = 0;
         this.weight = 0.5;
-        this.image = document.querySelector('#yellowbird');
+        this.image = document.querySelector('#redbird');
         this.frameX = 0;
         this.maxFrame = 2;
         this.angel = 0;
@@ -18,16 +18,12 @@ export class Flappy {
     }
 
     update(deltaTime) {
-        this.checkCollision();
         if(this.game.gameStart) {
             this.y -= this.vy;
             this.vy -= this.weight;
             if (!this.game.gameOver) this.angel += this.weight * 4;
         }
-
-        if (this.y >= this.game.height - this.height - this.game.outputMargin) {
-            this.y = this.game.height - this.height - this.game.outputMargin
-        }
+        this.checkCollision();
 
         if (this.frameTimer > this.frameInterval) {
             this.frameTimer = 0;
@@ -49,6 +45,10 @@ export class Flappy {
     }
 
     checkCollision() {
+        if (this.y >= this.game.height - this.height - this.game.outputMargin) {
+            this.game.gameOver = true;
+            this.y = this.game.height - this.height - this.game.outputMargin
+        }
         this.game.pipes.forEach(pipe => {
             const [footerPipe, headerPipe] = pipe.spacePipes;
             
@@ -72,8 +72,8 @@ export class Flappy {
     }
 
     flyUp() {
-        if(!this.game.gameOver) {
-            this.game.gameStart = true;
+        if (!this.game.gameStart) this.game.gameStart = true;
+        if (!this.game.gameOver) {
             this.vy = 7;
             this.angel = -45;
         }

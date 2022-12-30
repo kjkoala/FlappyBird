@@ -5,7 +5,7 @@ export class Background {
         this.height = 512;
         this.x = 0;
         this.y = 0;
-        this.image = document.querySelector('#background-day');
+        this.image = document.querySelector('#background-night');
 
     }
     update() {
