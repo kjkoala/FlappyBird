@@ -80,6 +80,24 @@ class Game {
             this.audio_point.play();
         }
     }
+
+    restart() {
+        this.speed = 1;
+        this.outputMargin = 59;
+        this.speedModification = 2;
+        this.pipeTimer = 0;
+        this.gameOver = false;
+        this.gameStart = false;
+        this.fontColor = 'white';
+        this.score = 0;
+        this.scoreBlock = false;
+
+        this.pipes = new Set();
+        this.player = new Flappy(this);
+        this.background = new Background(this);
+        this.base = new Base(this);
+        this.UI = new UI(this);
+    }
 }
 
 window.addEventListener('load', () => {

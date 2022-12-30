@@ -1,3 +1,5 @@
+import { Flappy } from "./Flappy.js";
+
 export class UI {
     constructor(game) {
         this.game = game;
@@ -28,8 +30,13 @@ export class UI {
             context.drawImage(this.messageGameOver, (this.game.width - this.width) * 0.5,
                 (this.game.height - this.height) * 0.5)
 
-                if (0 >= this.blindScreen) {
+                if (10 >= this.blindScreen) {
                     this.blindScreen = 0;
+                    const restart = () => {
+                        this.game.restart()
+                        window.removeEventListener('mousedown', restart)
+                    }
+                    window.addEventListener('mousedown', restart)
                 } else {
                     this.blindScreen -= 1;
                 }
