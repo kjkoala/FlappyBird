@@ -1,6 +1,6 @@
 export class InputHandler {
     constructor(callback) {
-        window.addEventListener('mousedown', callback, {
+        window.addEventListener('touchstart', callback, {
             passive: true
         })
     }

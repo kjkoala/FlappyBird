@@ -7,7 +7,7 @@ export class Flappy {
         this.y = game.height * 0.5;
         this.vy = 0;
         this.weight = 0.5;
-        this.image = document.querySelector('#redbird');
+        this.image = document.querySelector('#bluebird');
         this.frameX = 0;
         this.maxFrame = 2;
         this.angel = 0;

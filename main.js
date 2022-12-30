@@ -6,10 +6,10 @@ import { Pipe } from './pipe.js';
 import { UI } from './UI.js';
 class Game {
     constructor(width, height) {
-        this.audio_hit = document.querySelector('#audio_hit');
-        this.audio_die = document.querySelector('#audio_die');
-        this.audio_wing = document.querySelector('#audio_wing');
-        this.audio_point = document.querySelector('#audio_point');
+        this.audio_hit = new Audio('assets/audio/audio_hit.ogg');
+        this.audio_die = new Audio('assets/audio/audio_die.ogg');
+        this.audio_wing = new Audio('assets/audio/audio_wing.ogg');
+        this.audio_point = new Audio('assets/audio/audio_point.ogg');
 
         this.width = width;
         this.height = height;
@@ -32,7 +32,7 @@ class Game {
         new InputHandler(() => {
             if (!this.gameOver) {
                 this.player.flyUp()
-                // this.audio_wing.play()
+                this.audio_wing.play()
             }
         });
     }
@@ -59,17 +59,17 @@ class Game {
         }
 
         if(this.gameOver && this.speed > 0) {
-            // this.audio_hit.play();
-            // this.audio_die.play();
+            this.audio_hit.play();
+            this.audio_die.play();
             this.speed = 0;
 
             const restart = () => {
                 this.restart()
-                window.removeEventListener('mousedown', restart)
+                window.removeEventListener('touchstart', restart)
             }
 
             setTimeout(() => {
-                window.addEventListener('mousedown', restart)
+                window.addEventListener('touchstart', restart)
             }, 500)
         }
     }
@@ -86,7 +86,7 @@ class Game {
         if (!this.scoreBlock) {
             this.score += 1;
             this.scoreBlock = true;
-            // this.audio_point.play();
+            this.audio_point.play();
         }
     }
 
@@ -113,8 +113,8 @@ window.addEventListener('load', () => {
     const canvas = document.querySelector('#canvas');
     const ctx = canvas.getContext('2d');
 
-    canvas.width = 375;
-    canvas.height = 500;
+    canvas.width = Math.min(window.innerWidth, 570) ;
+    canvas.height = 570;
 
     const game = new Game(canvas.width, canvas.height)
     let lastTime = 0;

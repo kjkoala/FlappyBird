@@ -21,7 +21,7 @@ export class Pipe {
 
     heightPipe() {
         const firstPipe = Math.floor(Math.random() * 320)
-        if(firstPipe < 120) return this.heightPipe()
+        if(firstPipe < 130) return this.heightPipe()
         return [firstPipe + this.space, firstPipe - 320 - this.space]
     }
 
