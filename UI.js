@@ -9,7 +9,6 @@ export class UI {
         this.height = 267
         this.fontSize = 30;
         this.fontFamily = 'Righteous';
-        this.blindScreen = 99;
     }
     
     draw(context) {
@@ -29,21 +28,6 @@ export class UI {
         } else if (this.game.gameOver) {
             context.drawImage(this.messageGameOver, (this.game.width - this.width) * 0.5,
                 (this.game.height - this.height) * 0.5)
-
-                if (10 >= this.blindScreen) {
-                    this.blindScreen = 0;
-                    const restart = () => {
-                        this.game.restart()
-                        window.removeEventListener('mousedown', restart)
-                    }
-                    window.addEventListener('mousedown', restart)
-                } else {
-                    this.blindScreen -= 1;
-                }
-
-                context.fillStyle = `rgba(255, 255, 255, 0.${ this.blindScreen })`
-                context.rect(0, 0, this.game.width, this.game.height)
-                context.fill()
         }
     }
 }

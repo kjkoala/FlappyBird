@@ -62,6 +62,15 @@ class Game {
             this.audio_hit.play();
             this.audio_die.play();
             this.speed = 0;
+
+            const restart = () => {
+                this.restart()
+                window.removeEventListener('mousedown', restart)
+            }
+
+            setTimeout(() => {
+                window.addEventListener('mousedown', restart)
+            }, 500)
         }
     }
     
