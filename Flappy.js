@@ -7,10 +7,10 @@ export class Flappy {
         this.y = game.height * 0.5;
         this.vy = 0;
         this.weight = 0.5;
-        this.speed = 0;
         this.image = document.querySelector('#bluebird');
         this.frameX = 0;
         this.maxFrame = 2;
+        this.angel = 0;
 
         this.fps = 10;
         this.frameInterval = 1000 / this.fps;
@@ -22,6 +22,7 @@ export class Flappy {
         if(this.game.gameStart) {
             this.y -= this.vy;
             this.vy -= this.weight;
+            if (!this.game.gameOver) this.angel += this.weight * 4;
         }
 
         if (this.y >= this.game.height - this.height - this.game.outputMargin) {
@@ -40,7 +41,11 @@ export class Flappy {
     }
 
     draw(context) {
-        context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
+        context.save()
+        context.translate(this.x, this.y)
+        context.rotate(this.angel * Math.PI / 360)
+        context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, 0, 0, this.width, this.height)
+        context.restore()
     }
 
     checkCollision() {
@@ -59,7 +64,7 @@ export class Flappy {
             ) {
                 this.game.gameOver = true;
             }
-            if (pipe.x < this.x + this.width &&
+            if (pipe.x + pipe.width < this.x + this.width &&
                 pipe.x + pipe.width > this.x) {
                 this.game.scoreUpdate();
             }
@@ -70,6 +75,7 @@ export class Flappy {
         if(!this.game.gameOver) {
             this.game.gameStart = true;
             this.vy = 7;
+            this.angel = -45;
         }
     }
 }
