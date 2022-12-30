@@ -4,20 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <title>Flappy bird</title>
     <style>
-        body {
-            background-color: black;
+        * {
+            margin: 0;
+            padding: 0;
         }
-
-        canvas {
-            background-color: white;
+        html {
+            display: flex;
+            height: 100vh;
+        }
+        body {
+            margin: auto;
+            background-color: black;
+            
         }
     </style>
 </head>
 <body>
     <canvas id="canvas"></canvas>
     <img src="assets/bluebird.png" id="bluebird" hidden />
+    <img src="assets/background-day.png" id="background-day" hidden />
+    <img src="assets/base.png" id="base" hidden />
+    <img src="assets/pipe-green.png" id="pipe-green" hidden />
+    <img src="assets/pipe-green-rotate.png" id="pipe-green-rotate" hidden />
+    <img src="assets/message.png" id="message" hidden />
+    <img src="assets/gameover.png" id="gameover" hidden />
+
+    <audio src="assets/audio/audio_hit.ogg" id="audio_hit"></audio>
+    <audio src="assets/audio/audio_wing.ogg" id="audio_wing"></audio>
+    <audio src="assets/audio/audio_die.ogg" id="audio_die"></audio>
+    <audio src="assets/audio/audio_point.ogg" id="audio_point"></audio>
     <script type="module" src="main.js"></script>
 </body>
 </html>

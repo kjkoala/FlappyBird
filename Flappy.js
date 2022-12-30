@@ -6,24 +6,70 @@ export class Flappy {
         this.x = 20;
         this.y = game.height * 0.5;
         this.vy = 0;
-        this.weight = 1;
+        this.weight = 0.5;
         this.speed = 0;
         this.image = document.querySelector('#bluebird');
+        this.frameX = 0;
+        this.maxFrame = 2;
+
+        this.fps = 10;
+        this.frameInterval = 1000 / this.fps;
+        this.frameTimer = 0;
     }
 
-    update() {
-        this.y -= this.vy;
-        this.vy -= 0.5;
-        if (this.y >= this.game.height - this.height) {
-            this.y = this.game.height - this.height
+    update(deltaTime) {
+        this.checkCollision();
+        if(this.game.gameStart) {
+            this.y -= this.vy;
+            this.vy -= this.weight;
+        }
+
+        if (this.y >= this.game.height - this.height - this.game.outputMargin) {
+            this.y = this.game.height - this.height - this.game.outputMargin
+        }
+
+        if (this.frameTimer > this.frameInterval) {
+            this.frameTimer = 0;
+            if (this.frameX < this.maxFrame) this.frameX++;
+            else this.frameX = 0;
+        } else if (this.game.gameOver) {
+            this.frameX = 1;
+        } else {
+            this.frameTimer += deltaTime
         }
     }
 
     draw(context) {
-        context.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height)
+        context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height)
+    }
+
+    checkCollision() {
+        this.game.pipes.forEach(pipe => {
+            const [footerPipe, headerPipe] = pipe.spacePipes;
+            
+            // задел нижний пайп
+            if ((pipe.x < this.x + this.width &&
+                pipe.x + pipe.width > this.x &&
+                footerPipe < this.y + this.height)
+                ||
+                // задел верхний пайп
+                ( pipe.x < this.x + this.width &&
+                pipe.x + pipe.width > this.x &&
+                headerPipe + pipe.height > this.y)
+            ) {
+                this.game.gameOver = true;
+            }
+            if (pipe.x < this.x + this.width &&
+                pipe.x + pipe.width > this.x) {
+                this.game.scoreUpdate();
+            }
+        })
     }
 
     flyUp() {
-        this.vy = 10;
+        if(!this.game.gameOver) {
+            this.game.gameStart = true;
+            this.vy = 7;
+        }
     }
 }
