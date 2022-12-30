@@ -15,7 +15,7 @@ export class UI {
         this.number_7 = document.querySelector('#number_7')
         this.number_8 = document.querySelector('#number_8')
         this.number_9 = document.querySelector('#number_9')
-        this.number_width = 32
+        this.number_width = 45
 
         this.messageWidth = 184
         this.messageHeight = 267

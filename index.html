@@ -6,25 +6,120 @@
     <link rel="icon" 
       type="image/png" 
       href="assets/favicon.png">
+    <link rel="manifest" href="manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>Flappy bird</title>
     <style>
         * {
             margin: 0;
             padding: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
             user-select: none;
         }
         html {
             display: flex;
             height: 100vh;
+            overflow: hidden;
         }
         body {
             margin: auto;
             background-color: black;
-            
+            position: relative;
+            font-family: 'Press Start 2P', cursive;
+        }
+        button {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #cc5809;
+            color: white;
+            border: 2px solid white;
+            box-shadow: 0 1px 0 2px #452c0e;
+            width: 60px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        button:hover {
+            transform: translateY(2px)
+        }
+
+        .board {
+            opacity: 1;
+            transform: translateY(80px);
+            justify-content: space-between;
+            display: flex;
+            position: absolute;
+            padding: 4px 8px;
+            inset: 0;
+            margin: auto;
+            margin: auto;
+            background-color: #dcda94;
+            width: 50%;
+            height: 140px;
+            box-shadow: inset 1px 1px 0 0 #f0e3bb, inset 3px 3px 0 0 #efe1aa, inset -3px -3px 0 0 #efe1aa, inset -4px -4px 0 0 white, inset 5px 5px 0 0 #ccb25c, 0 1px 0 2px #563737;
+            transition: all ease-out 500ms;
+        }
+        .board.hide {
+            opacity: 0;
+            transform: translateY(-40px);
+            transition: all linear 0ms;
+        }
+        span {
+            color: #c3ab5a;
+            text-shadow: 1px 1px 0 #563737;
+        }
+        .score {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .score_right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px;
+        }
+        .space_medal {
+            width: 38px;
+            height: 38px;
+            background: #c3ab5a;
+            box-shadow: inset 0 -2px #f0e3bb;
+            border-radius: 50%;
+        }
+        .medal {
+            position: absolute;
+            margin-top: 16px;
+            margin-left: 1px;
+            opacity: 1;
+            transform: scale(1);
+            transition: all ease-in-out 500ms;
+        }
+        .medal.hide {
+            opacity: 0;
+            transform: scale(2);
         }
     </style>
 </head>
 <body>
+    <div class="board hide" id="board">
+        <div class="score_right" style="gap: 0; align-items:center">
+            <span>Medal</span>
+            <img width="40" height="40px" class="medal hide" id="medal" />
+            <div class="space_medal"></div>
+        </div>
+        <div class="score_right">
+            <div class="score">
+                <span>Score</span>
+                <span id="score"></span>
+            </div>
+            <div class="score">
+                <span>Best</span>
+                <span id="best_score"></span>
+            </div>
+        </div>
+    </div>
+    <!-- <button>ok</button> -->
     <canvas id="canvas"></canvas>
     <img src="assets/bluebird.png" id="bluebird" hidden />
     <img src="assets/yellowbird.png" id="yellowbird" hidden />
@@ -47,7 +142,6 @@
     <img src="assets/numbers/7.png" id="number_7" hidden />
     <img src="assets/numbers/8.png" id="number_8" hidden />
     <img src="assets/numbers/9.png" id="number_9" hidden />
-
     <script type="module" src="main.js"></script>
 </body>
 </html>

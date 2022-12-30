@@ -63,14 +63,60 @@ class Game {
             this.audio_die.play();
             this.speed = 0;
 
+            const localScore = window.localStorage.getItem('localScore')
+            document.querySelector('#score').textContent = this.score;
+            document.querySelector('#best_score').textContent = localScore ?? this.score;
+            document.querySelector('#board').classList.remove('hide')
+
+
+
+            if (localScore) {
+                if (this.score > Number(localScore)) {
+                    window.localStorage.setItem('localScore', this.score)
+                }
+            } else {
+                window.localStorage.setItem('localScore', this.score)
+            }
+
+            let playerMedal = ''
+            const MEDALS = {
+                BRONZE: 'Bronze',
+                SILVER: 'Silver',
+                GOLD: 'Gold',
+                PLATINUM: 'Platinummedal'
+            }
+
+            if (localScore >= 10 && localScore < 20) {
+                playerMedal = MEDALS.BRONZE
+            } else if (localScore >= 20 && localScore < 30) {
+                playerMedal = MEDALS.SILVER
+            } else if (localScore >= 30 && localScore < 40) {
+                playerMedal = MEDALS.GOLD
+            } else if (localScore >= 40) {
+                playerMedal = MEDALS.PLATINUM
+            }
+
+            document.querySelector('#medal').src = `assets/${playerMedal}.webp`;
+
+
+
             const restart = () => {
                 this.restart()
+                document.querySelector('#board').classList.add('hide')
+                document.querySelector('#medal').classList.add('hide')
                 window.removeEventListener('touchstart', restart)
             }
 
             setTimeout(() => {
                 window.addEventListener('touchstart', restart)
             }, 500)
+
+            if(playerMedal) {
+                setTimeout(() => {
+                    document.querySelector('#medal').classList.remove('hide')
+                }, 600)
+            }
+
         }
     }
     
