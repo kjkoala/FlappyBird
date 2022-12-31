@@ -5,6 +5,7 @@
     "start_url": ".",
     "display": "standalone",
     "background_color": "black",
+    "theme_color": "black",
     "description": "Flappy Bird - Fly Bird",
     "icons": [{
       "src": "assets/manifest/48x48.png",
