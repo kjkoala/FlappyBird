@@ -3,7 +3,7 @@ export class Base {
         this.game = game;
         this.image = document.querySelector('#base');
         this.x = 0;
-        this.y =  this.game.height - 60;
+        this.y =  this.game.height - 112;
         this.width = 336;
         this.height = 112;
     }

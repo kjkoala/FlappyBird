@@ -12,7 +12,7 @@ export class Flappy {
         this.maxFrame = 2;
         this.angel = 0;
 
-        this.fps = 10;
+        this.fps = 7;
         this.frameInterval = 1000 / this.fps;
         this.frameTimer = 0;
     }
@@ -21,7 +21,7 @@ export class Flappy {
         if(this.game.gameStart) {
             this.y -= this.vy;
             this.vy -= this.weight;
-            if (!this.game.gameOver) this.angel += this.weight * 4;
+            if (!this.game.gameOver) this.angel += this.weight * 5;
         }
         this.checkCollision();
 

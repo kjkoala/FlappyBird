@@ -4,22 +4,30 @@ import { Flappy } from './Flappy.js'
 import { InputHandler } from './input.js';
 import { Pipe } from './pipe.js';
 import { UI } from './UI.js';
+
+const MEDALS = {
+    BRONZE: 'Bronze',
+    SILVER: 'Silver',
+    GOLD: 'Gold',
+    PLATINUM: 'Platinummedal'
+};
+
+let playerMedal = '';
 class Game {
     constructor(width, height) {
         this.audio_hit = new Audio('assets/audio/audio_hit.ogg');
         this.audio_die = new Audio('assets/audio/audio_die.ogg');
-        this.audio_wing = new Audio('assets/audio/audio_wing.ogg');
         this.audio_point = new Audio('assets/audio/audio_point.ogg');
 
         this.width = width;
         this.height = height;
         this.speed = 1;
-        this.outputMargin = 59;
+        this.outputMargin = 112;
         this.speedModification = 2;
+        this.createPipeTime = 1700;
         this.pipeTimer = 0;
         this.gameOver = false;
         this.gameStart = false;
-        this.fontColor = 'white';
         this.score = 0;
         this.scoreBlock = false;
 
@@ -32,6 +40,7 @@ class Game {
         new InputHandler(() => {
             if (!this.gameOver) {
                 this.player.flyUp()
+                this.audio_wing = new Audio('assets/audio/audio_wing.ogg');
                 this.audio_wing.play()
             }
         });
@@ -51,7 +60,7 @@ class Game {
 
         if (!this.gameStart) {
             this.pipeTimer = 0;
-        } else if (this.pipeTimer > 1700) {
+        } else if (this.pipeTimer > this.createPipeTime) {
             this.pipeTimer = 0;
             this.pipes.add(new Pipe(this));
         } else {
@@ -59,9 +68,9 @@ class Game {
         }
 
         if(this.gameOver && this.speed > 0) {
+            this.speed = 0;
             this.audio_hit.play();
             this.audio_die.play();
-            this.speed = 0;
 
             const localScore = window.localStorage.getItem('localScore')
             document.querySelector('#score').textContent = this.score;
@@ -78,14 +87,6 @@ class Game {
                 window.localStorage.setItem('localScore', this.score)
             }
 
-            let playerMedal = ''
-            const MEDALS = {
-                BRONZE: 'Bronze',
-                SILVER: 'Silver',
-                GOLD: 'Gold',
-                PLATINUM: 'Platinummedal'
-            }
-
             if (localScore >= 10 && localScore < 20) {
                 playerMedal = MEDALS.BRONZE
             } else if (localScore >= 20 && localScore < 30) {
@@ -97,8 +98,6 @@ class Game {
             }
 
             document.querySelector('#medal').src = `assets/${playerMedal}.webp`;
-
-
 
             const restart = () => {
                 this.restart()
@@ -138,12 +137,11 @@ class Game {
 
     restart() {
         this.speed = 1;
-        this.outputMargin = 59;
+        this.outputMargin = 112;
         this.speedModification = 2;
         this.pipeTimer = 0;
         this.gameOver = false;
         this.gameStart = false;
-        this.fontColor = 'white';
         this.score = 0;
         this.scoreBlock = false;
 
@@ -160,7 +158,7 @@ window.addEventListener('load', () => {
     const ctx = canvas.getContext('2d');
 
     canvas.width = Math.min(window.innerWidth, 570) ;
-    canvas.height = 570;
+    canvas.height = Math.min(window.innerHeight, 713);
 
     const game = new Game(canvas.width, canvas.height)
     let lastTime = 0;
