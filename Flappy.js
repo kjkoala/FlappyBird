@@ -7,7 +7,7 @@ export class Flappy {
         this.y = game.height * 0.5;
         this.vy = 0;
         this.weight = 0.5;
-        this.image = document.querySelector('#bluebird');
+        this.image = document.querySelector('#yellowbird');
         this.frameX = 0;
         this.maxFrame = 2;
         this.angel = 0;
@@ -45,9 +45,10 @@ export class Flappy {
     }
 
     checkCollision() {
-        if (this.y >= this.game.height - this.height - this.game.outputMargin) {
+        const groundBody = this.game.height - this.height - this.game.outputMargin
+        if (this.y >= groundBody) {
             this.game.gameOver = true;
-            this.y = this.game.height - this.height - this.game.outputMargin
+            this.y = groundBody
         }
         this.game.pipes.forEach(pipe => {
             const [footerPipe, headerPipe] = pipe.spacePipes;
