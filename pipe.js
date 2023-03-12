@@ -5,8 +5,9 @@ export class Pipe {
         this.x = this.game.width;
         this.width = 52;
         this.height = 320;
-        this.space = 42;
-        this.minHeightPipeOnGround = 390;
+        this.space = 70;
+        this.minHeightPipeOnGround = 239;
+        this.maxHeightPipeOnSky = 363;
         this.spacePipes = this.heightPipe()
 
         this.image = document.querySelector('#pipe-green');
@@ -21,7 +22,7 @@ export class Pipe {
     }
 
     heightPipe() {
-        const footerPipe = Math.floor(Math.random() * this.height)
+        const footerPipe = Math.floor(Math.random() * this.maxHeightPipeOnSky)
         if (footerPipe < this.minHeightPipeOnGround) return this.heightPipe()
         return [footerPipe + this.space, footerPipe - this.height - this.space]
     }

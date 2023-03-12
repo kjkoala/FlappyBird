@@ -45,9 +45,10 @@ export class Flappy {
     }
 
     checkCollision() {
-        if (this.y >= this.game.height - this.height - this.game.outputMargin) {
+        const groundBody = this.game.height - this.height - this.game.outputMargin
+        if (this.y >= groundBody) {
             this.game.gameOver = true;
-            this.y = this.game.height - this.height - this.game.outputMargin
+            this.y = groundBody
         }
         this.game.pipes.forEach(pipe => {
             const [footerPipe, headerPipe] = pipe.spacePipes;

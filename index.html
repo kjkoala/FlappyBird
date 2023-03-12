@@ -7,6 +7,7 @@
       type="image/png" 
       href="assets/favicon.png">
     <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#008894" />
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>Flappy bird</title>
     <style>
@@ -23,7 +24,8 @@
             overflow: hidden;
         }
         body {
-            margin: auto;
+            border-top: 2px solid #533545;
+            margin: 0 auto;
             background-color: black;
             position: relative;
             font-family: 'Press Start 2P', cursive;
@@ -101,7 +103,14 @@
             transform: scale(2);
         }
         canvas {
-            background: #5ee371;
+            --background-night: #00a500;
+            --background-day: #5ee371; 
+            background: var(--background-night);
+        }
+        .ground {
+            background: #dfd996;
+            height: 100%;
+            margin-top: -5px;
         }
     </style>
 </head>
@@ -125,6 +134,7 @@
     </div>
     <!-- <button>ok</button> -->
     <canvas id="canvas"></canvas>
+    <div class="ground"></div>
     <img src="assets/bluebird.png" id="bluebird" hidden />
     <img src="assets/yellowbird.png" id="yellowbird" hidden />
     <img src="assets/redbird.png" id="redbird" hidden />

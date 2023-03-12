@@ -28,7 +28,6 @@ class Game {
         this.pipeTimer = 0;
         this.gameOver = false;
         this.gameStart = false;
-        this.fontColor = 'white';
         this.score = 0;
         this.scoreBlock = false;
 
@@ -143,7 +142,6 @@ class Game {
         this.pipeTimer = 0;
         this.gameOver = false;
         this.gameStart = false;
-        this.fontColor = 'white';
         this.score = 0;
         this.scoreBlock = false;
 
@@ -160,7 +158,7 @@ window.addEventListener('load', () => {
     const ctx = canvas.getContext('2d');
 
     canvas.width = Math.min(window.innerWidth, 570) ;
-    canvas.height = Math.min(window.innerHeight, 813);
+    canvas.height = Math.min(window.innerHeight, 713);
 
     const game = new Game(canvas.width, canvas.height)
     let lastTime = 0;
