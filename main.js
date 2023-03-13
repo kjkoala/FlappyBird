@@ -50,7 +50,7 @@ class Game {
         })
         .then(res => res.json())
         .then(players => {
-            this.best_score = players.find(player => player.me);
+            this.best_score = players.find(player => player.me) || 0;
         })
     }
 
