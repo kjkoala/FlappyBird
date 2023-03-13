@@ -4,6 +4,8 @@ import { Flappy } from './Flappy.js'
 import { InputHandler } from './input.js';
 import { Pipe } from './pipe.js';
 import { UI } from './UI.js';
+
+const hash = location.search.slice(4)
 class Game {
     constructor(width, height) {
         this.audio_hit = new Audio('assets/audio/audio_hit.ogg');
@@ -20,6 +22,7 @@ class Game {
         this.gameOver = false;
         this.gameStart = false;
         this.score = 0;
+        this.best_score = 0;
         this.scoreBlock = false;
 
         this.pipes = new Set();
@@ -35,6 +38,20 @@ class Game {
                 this.audio_wing.play()
             }
         });
+
+        fetch('/api/flappy/getHeightScores', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                data: hash
+            })
+        })
+        .then(res => res.json())
+        .then(players => {
+            this.best_score = players.find(player => player.me);
+        })
     }
 
     update(deltaTime) {
@@ -64,19 +81,21 @@ class Game {
             this.audio_die.play();
 
             document.querySelector('#board').classList.remove('hide')
+            const loadingElement = document.querySelector("#score_loading")
+            loadingElement.textContent = 'Loading...'
 
-            const hash = location.search.slice(4)
-
-            fetch('/api/flappy/setScore', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    data: hash,
-                    score: this.score
+            if (this.score > this.best_score) {
+                fetch('/api/flappy/setScore', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        data: hash,
+                        score: this.score
+                    })
                 })
-            })
+            }
 
 
             fetch('/api/flappy/getHeightScores', {
@@ -89,10 +108,32 @@ class Game {
                 })
             })
             .then(res => res.json())
-            .then(res => {
-                console.log(res)
-            })
+            .then(players => {
+                const fragment = new DocumentFragment();
+                players.forEach((player) => {
+                    const wrap = document.createElement('li');
+                    const name = document.createElement('span');
+                    const score = document.createElement('span');
 
+                    if(player.me) {
+                        wrap.classList.add('me');
+                    }
+                    name.classList.add('name')
+                    wrap.append(name);
+                    wrap.append(score);
+                    fragment.append(wrap);
+                })
+
+                const element = document.querySelector('#score');
+
+                while(element.firstChild) {
+                    element.removeChild(element.firstChild);
+                }
+                loadingElement.textContent = '';
+                element.append(fragment);
+            }).catch(() => {
+                loadingElement.textContent = 'Error!'
+            })
         }
     }
     
