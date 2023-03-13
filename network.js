@@ -32,7 +32,7 @@ export class Network {
                 score: this.game.score
             })
         })
-        .then(this.getScores);
+        .then(() => this.getScores());
     }
 
     getScores() {
