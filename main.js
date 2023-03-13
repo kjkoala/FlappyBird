@@ -4,7 +4,6 @@ import { Flappy } from './Flappy.js'
 import { InputHandler } from './input.js';
 import { Pipe } from './pipe.js';
 import { UI } from './UI.js';
-import { handlerType } from './matchMedia.js'
 class Game {
     constructor(width, height) {
         this.audio_hit = new Audio('assets/audio/audio_hit.ogg');
@@ -71,9 +70,9 @@ class Game {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: {
+                body: JSON.stringify({
                     data: location.search
-                }
+                })
             })
             .then(res => res.json())
             .then(res => {
