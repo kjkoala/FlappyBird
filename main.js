@@ -5,8 +5,6 @@ import { InputHandler } from './input.js';
 import { Network } from './network.js';
 import { Pipe } from './pipe.js';
 import { UI } from './UI.js';
-
-const hash = location.search.slice(4)
 class Game {
     constructor(width, height) {
         this.audio_hit = new Audio('assets/audio/audio_hit.ogg');

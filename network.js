@@ -2,6 +2,7 @@ export class Network {
     constructor(game) {
         this.game = game;
         this.firstLoadPageScore();
+        this.hash = location.search.slice(4)
     }
 
     firstLoadPageScore () {
@@ -11,7 +12,7 @@ export class Network {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                data: hash
+                data: this.hash
             })
         })
         .then(res => res.json())
@@ -27,7 +28,7 @@ export class Network {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                data: hash,
+                data: this.hash,
                 score: this.game.score
             })
         })
@@ -50,7 +51,7 @@ export class Network {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                data: hash
+                data: this.hash
             })
         })
         .then(res => res.json())
