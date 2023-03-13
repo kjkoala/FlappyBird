@@ -67,7 +67,7 @@ export class Network {
                     this.game.best_score = player.score;
                 }
                 name.classList.add('name');
-                name.textContent = `${player.first_name} ${player.last_name}`
+                name.textContent = player.name
                 score.textContent = player.score
                 wrap.append(name);
                 wrap.append(score);
