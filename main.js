@@ -124,12 +124,17 @@ class Game {
                     fragment.append(wrap);
                 })
 
+                if (players.length === 0) {
+                    loadingElement.textContent = 'List is empty';
+                } else {
+                    loadingElement.textContent = '';
+                }
+
                 const element = document.querySelector('#score');
 
                 while(element.firstChild) {
                     element.removeChild(element.firstChild);
                 }
-                loadingElement.textContent = '';
                 element.append(fragment);
             }).catch(() => {
                 loadingElement.textContent = 'Error!'
