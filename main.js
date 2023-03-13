@@ -2,6 +2,7 @@ import { Background } from './background.js';
 import { Base } from './base.js';
 import { Flappy } from './Flappy.js'
 import { InputHandler } from './input.js';
+import { Network } from './network.js';
 import { Pipe } from './pipe.js';
 import { UI } from './UI.js';
 
@@ -30,6 +31,7 @@ class Game {
         this.background = new Background(this);
         this.base = new Base(this);
         this.UI = new UI(this);
+        this.network = new Network(this);
 
         new InputHandler(() => {
             if (!this.gameOver) {
@@ -38,20 +40,6 @@ class Game {
                 this.audio_wing.play()
             }
         });
-
-        fetch('/api/flappy/getHeightScores', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                data: hash
-            })
-        })
-        .then(res => res.json())
-        .then(players => {
-            this.best_score = players.find(player => player.me).score || 0;
-        })
     }
 
     update(deltaTime) {
@@ -81,67 +69,12 @@ class Game {
             this.audio_die.play();
 
             document.querySelector('#board').classList.remove('hide')
-            const loadingElement = document.querySelector("#score_loading")
-            loadingElement.textContent = 'Loading...'
 
             if (this.score > this.best_score) {
-                fetch('/api/flappy/setScore', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        data: hash,
-                        score: this.score
-                    })
-                })
+                this.network.setScore();
+            } else {
+                this.network.getScores();
             }
-
-
-            fetch('/api/flappy/getHeightScores', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    data: hash
-                })
-            })
-            .then(res => res.json())
-            .then(players => {
-                const fragment = new DocumentFragment();
-                players.forEach((player) => {
-                    const wrap = document.createElement('li');
-                    const name = document.createElement('span');
-                    const score = document.createElement('span');
-
-                    if(player.me) {
-                        wrap.classList.add('me');
-                        this.best_score = player.score;
-                    }
-                    name.classList.add('name');
-                    name.textContent = `${player.first_name} ${player.last_name}`
-                    score.textContent = player.score
-                    wrap.append(name);
-                    wrap.append(score);
-                    fragment.append(wrap);
-                })
-
-                if (players.length === 0) {
-                    loadingElement.textContent = 'List is empty';
-                } else {
-                    loadingElement.textContent = '';
-                }
-
-                const element = document.querySelector('#score');
-
-                while(element.firstChild) {
-                    element.removeChild(element.firstChild);
-                }
-                element.append(fragment);
-            }).catch(() => {
-                loadingElement.textContent = 'Error!'
-            })
         }
     }
     
