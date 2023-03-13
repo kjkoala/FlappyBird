@@ -1,8 +1,8 @@
 export class Network {
     constructor(game) {
         this.game = game;
+        this.hash = location.search.slice(4);
         this.firstLoadPageScore();
-        this.hash = location.search.slice(4)
     }
 
     firstLoadPageScore () {
