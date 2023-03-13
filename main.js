@@ -5,12 +5,9 @@ import { InputHandler } from './input.js';
 import { Network } from './network.js';
 import { Pipe } from './pipe.js';
 import { UI } from './UI.js';
+import { sound } from './sound.js';
 class Game {
     constructor(width, height) {
-        this.audio_hit = new Audio('assets/audio/audio_hit.ogg');
-        this.audio_die = new Audio('assets/audio/audio_die.ogg');
-        this.audio_point = new Audio('assets/audio/audio_point.ogg');
-
         this.width = width;
         this.height = height;
         this.speed = 1;
@@ -34,8 +31,7 @@ class Game {
         new InputHandler(() => {
             if (!this.gameOver) {
                 this.player.flyUp()
-                this.audio_wing = new Audio('assets/audio/audio_wing.ogg');
-                this.audio_wing.play()
+                sound.wing.play()
             }
         });
     }
@@ -63,8 +59,8 @@ class Game {
 
         if(this.gameOver && this.speed > 0) {
             this.speed = 0;
-            this.audio_hit.play();
-            this.audio_die.play();
+            sound.hit.play();
+            sound.die.play();
 
             document.querySelector('#board').classList.remove('hide')
 
@@ -88,7 +84,7 @@ class Game {
         if (!this.scoreBlock) {
             this.score += 1;
             this.scoreBlock = true;
-            this.audio_point.play();
+            sound.point.play();
         }
     }
 

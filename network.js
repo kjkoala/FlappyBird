@@ -63,7 +63,7 @@ export class Network {
                 const score = document.createElement('span');
 
                 if(player.me) {
-                    wrap.classList.add('me');
+                    wrap.classList.add('you');
                     this.game.best_score = player.score;
                 }
                 name.classList.add('name');
