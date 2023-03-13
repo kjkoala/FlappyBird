@@ -50,7 +50,7 @@ class Game {
         })
         .then(res => res.json())
         .then(players => {
-            this.best_score = players.find(player => player.me) || 0;
+            this.best_score = players.find(player => player.me).score || 0;
         })
     }
 
@@ -117,6 +117,7 @@ class Game {
 
                     if(player.me) {
                         wrap.classList.add('me');
+                        this.best_score = player.score;
                     }
                     name.classList.add('name');
                     name.textContent = `${player.first_name} ${player.last_name}`
