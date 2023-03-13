@@ -65,13 +65,27 @@ class Game {
 
             document.querySelector('#board').classList.remove('hide')
 
+            const hash = location.search.slice(4)
+
+            fetch('/api/flappy/setScore', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    data: hash,
+                    score: this.score
+                })
+            })
+
+
             fetch('/api/flappy/getHeightScores', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    data: location.search.slice(4)
+                    data: hash
                 })
             })
             .then(res => res.json())
