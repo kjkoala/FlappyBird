@@ -4,15 +4,7 @@ import { Flappy } from './Flappy.js'
 import { InputHandler } from './input.js';
 import { Pipe } from './pipe.js';
 import { UI } from './UI.js';
-
-const MEDALS = {
-    BRONZE: 'Bronze',
-    SILVER: 'Silver',
-    GOLD: 'Gold',
-    PLATINUM: 'Platinummedal'
-};
-
-let playerMedal = '';
+import { handlerType } from './matchMedia.js'
 class Game {
     constructor(width, height) {
         this.audio_hit = new Audio('assets/audio/audio_hit.ogg');
@@ -72,49 +64,21 @@ class Game {
             this.audio_hit.play();
             this.audio_die.play();
 
-            const localScore = window.localStorage.getItem('localScore')
-            document.querySelector('#score').textContent = this.score;
-            document.querySelector('#best_score').textContent = localScore ?? this.score;
             document.querySelector('#board').classList.remove('hide')
 
-
-
-            if (localScore) {
-                if (this.score > Number(localScore)) {
-                    window.localStorage.setItem('localScore', this.score)
+            fetch('/api/flappy/getHeightScores', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    data: location.search
                 }
-            } else {
-                window.localStorage.setItem('localScore', this.score)
-            }
-
-            if (localScore >= 10 && localScore < 20) {
-                playerMedal = MEDALS.BRONZE
-            } else if (localScore >= 20 && localScore < 30) {
-                playerMedal = MEDALS.SILVER
-            } else if (localScore >= 30 && localScore < 40) {
-                playerMedal = MEDALS.GOLD
-            } else if (localScore >= 40) {
-                playerMedal = MEDALS.PLATINUM
-            }
-
-            document.querySelector('#medal').src = `assets/${playerMedal}.webp`;
-
-            const restart = () => {
-                this.restart()
-                document.querySelector('#board').classList.add('hide')
-                document.querySelector('#medal').classList.add('hide')
-                window.removeEventListener('touchstart', restart)
-            }
-
-            setTimeout(() => {
-                window.addEventListener('touchstart', restart)
-            }, 500)
-
-            if(playerMedal) {
-                setTimeout(() => {
-                    document.querySelector('#medal').classList.remove('hide')
-                }, 600)
-            }
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+            })
 
         }
     }
@@ -136,6 +100,8 @@ class Game {
     }
 
     restart() {
+        document.querySelector('#board').classList.add('hide')
+
         this.speed = 1;
         this.outputMargin = 112;
         this.speedModification = 2;
@@ -162,6 +128,10 @@ window.addEventListener('load', () => {
 
     const game = new Game(canvas.width, canvas.height)
     let lastTime = 0;
+
+    document.querySelector('#restart').addEventListener('click', () => {
+        game.restart()
+    })
 
     ;(function animate(timeStamp) {
         const deltaTime = timeStamp - lastTime;

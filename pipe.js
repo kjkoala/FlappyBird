@@ -5,7 +5,7 @@ export class Pipe {
         this.x = this.game.width;
         this.width = 52;
         this.height = 320;
-        this.space = 70;
+        this.space = 44;
         this.minHeightPipeOnGround = 239;
         this.maxHeightPipeOnSky = 363;
         this.spacePipes = this.heightPipe()

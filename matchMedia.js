@@ -1,0 +1,1 @@
+export const handlerType = window.matchMedia('(hover: hover)').matches ? 'mousedown' : 'touchstart';
