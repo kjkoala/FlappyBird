@@ -118,7 +118,9 @@ class Game {
                     if(player.me) {
                         wrap.classList.add('me');
                     }
-                    name.classList.add('name')
+                    name.classList.add('name');
+                    name.textContent = `${player.first_name} ${player.last_name}`
+                    score.textContent = player.score
                     wrap.append(name);
                     wrap.append(score);
                     fragment.append(wrap);
