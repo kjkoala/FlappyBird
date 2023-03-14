@@ -13,13 +13,16 @@ class Game {
         this.speed = 1;
         this.outputMargin = 112;
         this.speedModification = 2;
-        this.createPipeTime = 1700;
+        this.createPipeTime = 3000;
         this.pipeTimer = 0;
         this.gameOver = false;
         this.gameStart = false;
         this.score = 0;
         this.best_score = 0;
         this.scoreBlock = false;
+
+        this.fps = 60;
+        this.frameInterval = 1000 / this.fps;
 
         this.pipes = new Set();
         this.player = new Flappy(this);
@@ -116,7 +119,7 @@ window.addEventListener('load', () => {
     canvas.height = Math.min(window.innerHeight, 713);
 
     const game = new Game(canvas.width, canvas.height)
-    let lastTime = 0;
+    let lastTime = performance.now();
 
     document.querySelector('#restart').addEventListener('click', () => {
         game.restart()
@@ -124,10 +127,11 @@ window.addEventListener('load', () => {
 
     ;(function animate(timeStamp) {
         const deltaTime = timeStamp - lastTime;
-        lastTime = timeStamp
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        game.update(deltaTime);
-        game.draw(ctx);
-        requestAnimationFrame(animate)
-    })(0);
+        if (deltaTime > game.frameInterval) {
+            game.update(deltaTime)
+            game.draw(ctx)
+            lastTime = timeStamp - (deltaTime % game.frameInterval)
+        }
+        requestAnimationFrame(animate);
+    }(lastTime));
 })

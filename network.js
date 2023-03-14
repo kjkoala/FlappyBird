@@ -19,6 +19,9 @@ export class Network {
         .then(players => {
             this.game.best_score = players.find(player => player.me).score || 0;
         })
+        .catch((err) => {
+            console.log(err)
+        })
     }
 
     setScore () {
