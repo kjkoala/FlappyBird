@@ -132,6 +132,7 @@ window.addEventListener('load', () => {
     ;(function animate(timeStamp) {
         const deltaTime = timeStamp - lastTime;
         if (deltaTime > game.frameInterval) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
             game.update(deltaTime)
             game.draw(ctx)
             lastTime = timeStamp - (deltaTime % game.frameInterval)
