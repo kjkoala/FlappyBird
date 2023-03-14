@@ -13,7 +13,7 @@ class Game {
         this.speed = 1;
         this.outputMargin = 112;
         this.speedModification = 2;
-        this.createPipeTime = 3000;
+        this.createPipeTime = 1700;
         this.pipeTimer = 0;
         this.gameOver = false;
         this.gameStart = false;
@@ -128,15 +128,12 @@ window.addEventListener('load', () => {
     document.querySelector('#restart').addEventListener('click', () => {
         game.restart()
     })
-
     ;(function animate(timeStamp) {
         const deltaTime = timeStamp - lastTime;
-        if (deltaTime > game.frameInterval) {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
             game.update(deltaTime)
             game.draw(ctx)
-            lastTime = timeStamp - (deltaTime % game.frameInterval)
-        }
+            lastTime = timeStamp
         requestAnimationFrame(animate);
     }(lastTime));
 })
