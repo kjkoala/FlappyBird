@@ -115,6 +115,10 @@ window.addEventListener('load', () => {
     const canvas = document.querySelector('#canvas');
     const ctx = canvas.getContext('2d');
 
+    document.querySelector('#loading_page').hidden = true
+    document.querySelector('.ground').hidden = false
+    canvas.hidden = false
+
     canvas.width = Math.min(window.innerWidth, 570) ;
     canvas.height = Math.min(window.innerHeight, 713);
 

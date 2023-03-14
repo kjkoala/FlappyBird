@@ -121,9 +121,19 @@
         .you {
             background-color: yellowgreen;
         }
+
+        #loading_page {
+            color: #c3ab5a;
+            text-shadow: 1px 1px 0 #563737;
+            top: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>
 </head>
 <body>
+    <img src="assets/loading_page.png" id="loading_page" />
     <div class="board hide" id="board">
         <span id="score_loading"></span>
         <ul id="score">
@@ -133,8 +143,8 @@
             <button type="button" id="restart">restart</button>
         </div>
     </div>
-    <canvas id="canvas"></canvas>
-    <div class="ground"></div>
+    <canvas id="canvas" hidden></canvas>
+    <div class="ground" hidden></div>
     <img src="assets/bluebird.png" id="bluebird" hidden />
     <img src="assets/yellowbird.png" id="yellowbird" hidden />
     <img src="assets/redbird.png" id="redbird" hidden />
